@@ -29,8 +29,15 @@ class Generation < ApplicationRecord
     check_bounds(x_coordinate: x_coordinate, y_coordinate: y_coordinate)
 
     current_state = grid[x_coordinate][y_coordinate]
+    neighs = neighbours(x_coordinate: x_coordinate, y_coordinate: y_coordinate)
 
-    # TODO: implement this
+    alive_neighs = neighs.compact&.sum
+
+    if current_state == 1
+      alive_neighs < 2 || alive_neighs > 3 ? 0 : 1
+    else
+      alive_neighs == 3 ? 1 : 0
+    end
   end
 
   def neighbours(x_coordinate:, y_coordinate:)
@@ -60,11 +67,11 @@ class Generation < ApplicationRecord
   private
 
   def in_bounds?(x_coordinate:, y_coordinate:)
-    x_coordinate >= 0 && x_coordinate <= grid.count && y_coordinate >= 0 && y_coordinate <= grid[0].count
+    x_coordinate >= 0 && x_coordinate < grid.count && y_coordinate >= 0 && y_coordinate < grid[0].count
   end
 
   def check_bounds(x_coordinate:, y_coordinate:)
-    raise 'x_coordinate out of bounds' unless x_coordinate >= 0 && x_coordinate <= grid.count
-    raise 'y_coordinate out of bounds' unless y_coordinate >= 0 && y_coordinate <= grid[0]&.count
+    raise 'x_coordinate out of bounds' unless x_coordinate >= 0 && x_coordinate < grid.count
+    raise 'y_coordinate out of bounds' unless y_coordinate >= 0 && y_coordinate < grid[0]&.count
   end
 end
