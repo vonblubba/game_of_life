@@ -1,24 +1,6 @@
-# README
+# Game of Life
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Still a work in progress.
+I've got specs + implementation for the Generation model and methods to calculate next generation.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Note: I'm using a sqlite db. I did not deem necessary to switch to postgres for this exercise.
