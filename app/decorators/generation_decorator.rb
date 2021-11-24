@@ -10,6 +10,18 @@ class GenerationDecorator < Draper::Decorator
     [generation_text, size_text, grid_text].join("\n")
   end
 
+  def title
+    "Generation #{object.iteration}:"
+  end
+
+  def size
+    [object.grid.count, object.grid[0].count].join(' ')
+  end
+
+  def grid_text
+    serialize_grid(grid: object.grid)
+  end
+
   private
 
   def serialize_grid(grid:)
