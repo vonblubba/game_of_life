@@ -17,4 +17,8 @@ Ouptut at the moment is a string containing expected result.
 So, basically now backend part is working. Frontend still to be developed.
 
 23rd november update:
-implemented very basic frontend
+implemented very basic frontend.
+
+Added rake task to run an iteration:
+
+> rake 'generation:calculate_next['data/test_generation_00.txt']'
