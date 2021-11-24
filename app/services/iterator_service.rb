@@ -2,7 +2,6 @@
 
 class IteratorService
   attr_accessor(
-    :file_content,
     :current_iteration,
     :current_world,
     :current_grid,
@@ -13,18 +12,13 @@ class IteratorService
     :next_generation
   )
 
-  def initialize(file_path: nil, current_gen_id: nil)
-    raise 'missing required param' unless file_path.present? || current_gen_id.present?
-    raise "file #{file_path} not found" unless current_gen_id.present? || (file_path.present? && File.exist?(file_path))
+  def initialize(current_gen_id:)
+    raise 'missing current_gen_id param' unless current_gen_id.present?
 
-    if current_gen_id.present?
-      init_current_fields(current_gen_id: current_gen_id)
-    else
-      @current_world = Time.now.to_i.to_s
-      @file_content = File.readlines(file_path).map(&:chomp)
-      parse_input
-      create_current_generation
-    end
+    @current_generation = Generation.find(current_gen_id)
+    @current_world = @current_generation.world
+    @current_iteration = @current_generation.iteration
+    @current_grid = @current_generation.grid
   end
 
   def run
@@ -40,29 +34,6 @@ class IteratorService
   private
 
   # steps
-
-  def parse_input
-    # some volidation on the file content would be required,
-    # but in this context we are assuming input file content is valid
-
-    @current_iteration = file_content.shift[/\d+/].to_i
-
-    @rows, @columns = file_content.shift.split(' ')
-
-    @current_grid = []
-
-    file_content.each do |row|
-      current_grid << row.split('').map { |e| e == '*' ? 1 : 0 }
-    end
-  end
-
-  def create_current_generation
-    @current_generation = Generation.create(
-      world: current_world,
-      iteration: current_iteration,
-      grid: current_grid
-    )
-  end
 
   def calaculate_next_generation_grid
     @next_generation_grid = []
@@ -84,12 +55,5 @@ class IteratorService
       iteration: current_iteration + 1,
       grid: next_generation_grid
     )
-  end
-
-  def init_current_fields(current_gen_id:)
-    @current_generation = Generation.find(current_gen_id)
-    @current_world = @current_generation.world
-    @current_iteration = @current_generation.iteration
-    @current_grid = @current_generation.grid
   end
 end

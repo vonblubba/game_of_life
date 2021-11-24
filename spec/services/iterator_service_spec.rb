@@ -6,7 +6,8 @@ RSpec.describe IteratorService do
   context 'provided a valid generation file' do
     let(:input_file_path) { file_fixture('test_generation_00.txt') }
     let(:expected_output) { file_fixture('test_generation_expected_00.txt').read }
-    let(:iterator_service) { described_class.new(file_path: input_file_path) }
+    let(:current_generation) { GenerationCreationService.new(file_path: input_file_path).run }
+    let(:iterator_service) { described_class.new(current_gen_id: current_generation.id) }
 
     it 'creates next generation and returns required output' do
       next_gen = iterator_service.run[:next_gen]

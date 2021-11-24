@@ -15,8 +15,7 @@ class GenerationController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    s = IteratorService.new(file_path: file_path)
-    current_gen = s.run[:current_gen]
+    current_gen = GenerationCreationService.new(file_path: file_path).run
 
     redirect_to action: 'show', id: current_gen.id
   end
