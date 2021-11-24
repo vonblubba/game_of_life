@@ -13,16 +13,22 @@ class IteratorService
     :next_generation
   )
 
-  def initialize(file_path:)
-    raise "file #{file_path} not found" unless File.exist? file_path
+  def initialize(file_path: nil, current_gen_id: nil)
+    raise 'missing required param' unless file_path.present? || current_gen_id.present?
+    raise "file #{file_path} not found" unless file_path.present? && File.exist?(file_path)
 
-    @file_content = File.readlines(file_path).map(&:chomp)
-    @current_world = Time.now.to_i.to_s
+    if current_gen_id.present?
+      @current_generation = Generation.find(current_gen_id)
+      @current_world = @current_generation.world
+    else
+      @current_world = Time.now.to_i.to_s
+      @file_content = File.readlines(file_path).map(&:chomp)
+      parse_input
+      create_current_generation
+    end
   end
 
   def run
-    parse_input
-    create_current_generation
     calaculate_next_generation_grid
     create_next_generation
     next_generation&.id
