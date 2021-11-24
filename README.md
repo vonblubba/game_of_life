@@ -15,3 +15,6 @@ next generation calculaton is now implemented. It uses service IteratorService l
 Ouptut at the moment is a string containing expected result.
 
 So, basically now backend part is working. Frontend still to be developed.
+
+23rd november update:
+implemented very basic frontend
