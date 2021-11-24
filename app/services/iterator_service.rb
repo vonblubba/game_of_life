@@ -25,7 +25,7 @@ class IteratorService
     create_current_generation
     calaculate_next_generation_grid
     create_next_generation
-    generate_output
+    next_generation&.id
   end
 
   private
@@ -75,18 +75,5 @@ class IteratorService
       iteration: current_iteration + 1,
       grid: next_generation_grid
     )
-  end
-
-  def generate_output
-    generation_text = "Generation #{next_generation.iteration}:"
-    size_text = [rows, columns].join(' ')
-    grid_text = serialize_grid(grid: next_generation.grid)
-    [generation_text, size_text, grid_text].join("\n")
-  end
-
-  # utility methods
-
-  def serialize_grid(grid:)
-    grid.map { |a| a.join('') }.join("\n").gsub('0', '.').gsub('1', '*')
   end
 end
