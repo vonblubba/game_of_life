@@ -9,8 +9,7 @@ RSpec.describe IteratorService do
     let(:iterator_service) { described_class.new(file_path: input_file_path) }
 
     it 'creates next generation and returns required output' do
-      next_gen_id = iterator_service.run
-      next_gen = Generation.find next_gen_id
+      next_gen = iterator_service.run[:next_gen]
 
       expect(Generation.count).to eq 2
       expect(next_gen.decorate.complete_output).to eq expected_output

@@ -1,0 +1,9 @@
+<%= form_tag({:action => :perform_upload}, :multipart => true) do %>
+  <%= label_tag(:file_field, "Initial generation file:") %>
+  <br>
+  <br>
+  <%= file_field_tag(:file_field) %>
+  <br>
+  <br>
+  <%= submit_tag("Upload") %>
+<% end %>

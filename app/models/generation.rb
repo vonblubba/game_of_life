@@ -64,6 +64,13 @@ class Generation < ApplicationRecord
     result
   end
 
+  def next_generation
+    Generation
+      .where(world: world)
+      .where(iteration: iteration + 1)
+      .first
+  end
+
   private
 
   def in_bounds?(x_coordinate:, y_coordinate:)
